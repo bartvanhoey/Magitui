@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage x:Class="Magitui.Views.AddSavingsEntryPage"
+             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:Magitui.Views"
+             BackgroundColor="White">
+	<ContentPage.Content>
+		<StackLayout Padding="10">
+			<Label Text="Add SavingsEntryPage"
+			       HorizontalOptions="CenterAndExpand"
+			       TextColor="Purple"
+			       VerticalOptions="CenterAndExpand"/>
+
+            <Label FontAttributes="Bold" Text="Name" />
+            <Entry Text="{Binding AddSavingsEntry.Name, Mode=TwoWay}" />
+
+
+            <Label FontAttributes="Bold" Text="Amount" />
+            <Entry Text="{Binding AddSavingsEntry.Amount, Mode=TwoWay}" />
+
+
+            <Label FontAttributes="Bold" Text="Belongs to" />
+            <Entry Text="{Binding AddSavingsEntry.BelongsTo, Mode=TwoWay}" />
+
+            <Label FontAttributes="Bold" Text="Company" />
+            <Entry Text="{Binding AddSavingsEntry.Company, Mode=TwoWay}" />
+
+            <StackLayout Orientation="Horizontal" VerticalOptions="EndAndExpand" Padding="15">
+                <Button Text="Cancel" HorizontalOptions="FillAndExpand"/>
+                <Button Text="Save" HorizontalOptions="FillAndExpand" Command="{Binding SaveSavingsEntryCommand }" />
+            </StackLayout>
+
+
+        </StackLayout>
+	</ContentPage.Content>
+</ContentPage>
