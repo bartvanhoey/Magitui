@@ -4,9 +4,7 @@ using System.Text.Json;
 using Magitui.Configuration;
 using Magitui.Views;
 using Magitui.Views.Debts;
-using Microsoft.Maui;
 using Microsoft.Maui.Controls;
-using Microsoft.Maui.Controls.PlatformConfiguration.WindowsSpecific;
 using Application = Microsoft.Maui.Controls.Application;
 
 namespace Magitui
@@ -17,8 +15,9 @@ namespace Magitui
         {
             InitializeComponent();
 
-            Routing.RegisterRoute("addSavingsEntry", typeof(AddSavingsEntryPage));
-            Routing.RegisterRoute("addDebtEntry", typeof(AddDeptEntryPage));
+            Routing.RegisterRoute(nameof(AddSavingsEntryPage), typeof(AddSavingsEntryPage));
+            Routing.RegisterRoute(nameof(AddDeptEntryPage), typeof(AddDeptEntryPage));
+            Routing.RegisterRoute(nameof(SavingsPage), typeof(SavingsPage));
 
             MainPage = new AppShell();
         }

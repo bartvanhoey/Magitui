@@ -23,5 +23,14 @@ namespace Magitui.Views
             InitializeComponent();
             BindingContext= _vm = new SavingsViewModel();
         }
+
+        protected override async void OnAppearing()
+        {
+            base.OnAppearing();
+            await _vm.OnAppearing();
+
+        }
+
+
     }
 }

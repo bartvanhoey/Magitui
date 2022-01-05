@@ -7,6 +7,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Magitui.Configuration;
+using Magitui.Models;
 using Octokit;
 
 namespace Magitui.Services
@@ -55,20 +56,39 @@ namespace Magitui.Services
             return contentsByRef.FirstOrDefault(x => x.Name == fileName);
         }
 
-        public async Task<string> ReadSavingsFileAsync()
+        public async Task<List<AddSavingsEntry>> ReadSavingsFileAsync()
         {
+            
 
-            throw new NotImplementedException();
+            try
+            {
+                var file = await GetFileAsync(_savingsDataFile);
+                if (file == null) return new List<AddSavingsEntry>();
+
+                var _ = await _repoContent.GetAllContentsByRef(_gitHubUserName, _repoName, _savingsDataFile, _branchName);
+                var content = _.FirstOrDefault()?.Content;
+                if (content == null) return new List<AddSavingsEntry>();
+                var items = JsonSerializer.Deserialize<List<AddSavingsEntry>>(content);
+                if (items == null) return new List<AddSavingsEntry>();
+                return items;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
 
         }
 
 
-
+        
 
         public async Task UpdateSavingsFileAsync<T>(T content)
         {
             await UpdateFileAsync(content, _savingsDataFile);
         }
+
+        
 
         private async Task UpdateFileAsync<T>(T contentToAdd, string dataFile)
         {

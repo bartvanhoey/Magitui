@@ -2,18 +2,15 @@
 <ContentPage x:Class="Magitui.Views.SavingsPage"
              xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:local="clr-namespace:Magitui.Views"
              BackgroundColor="White">
 
     <ContentPage.ToolbarItems>
-        <ToolbarItem   Command="{Binding AddNewSavingsEntryCommand}" Text="Add" />
+        <ToolbarItem Command="{Binding AddSavingsEntryCommand}" Text="Add" />
     </ContentPage.ToolbarItems>
 
     <ContentPage.Content>
-        <Grid RowDefinitions="*,*,aut0">
-
-            <RefreshView Command="{Binding RefreshCommand}" IsRefreshing="{Binding IsBusy, Mode=OneWay}"
-                     RefreshColor="{StaticResource RefreshColor}">
+        <Grid RowDefinitions="*,auto,auto">
+            <ScrollView Grid.Row="0" BackgroundColor="Red" >
                 <CollectionView
                     SelectedItems="{Binding SelectedAddSavingsEntry}"
                     ItemsSource="{Binding SavingsEntries}"
@@ -24,11 +21,6 @@
                             <StackLayout Padding="12,7,10,7">
                                 <Frame Padding="20,10,10,10" CornerRadius="5" HasShadow="True">
                                     <StackLayout Orientation="Horizontal">
-                                        <!--<StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="Start">
-
-                                        <Image IsVisible="{Binding IsSelected, Mode=TwoWay}"
-                                                   Source="{FontImage FontFamily=FASolid, Size=25, Glyph={x:Static fontAwesome:FAIcons.Check}, Color={StaticResource Primary}}" />
-                                    </StackLayout>-->
                                         <StackLayout Orientation="Vertical" VerticalOptions="CenterAndExpand">
                                             <Label Margin="15,0,0,0" Text="{Binding Name}"
                                                    FontSize="Medium"
@@ -44,14 +36,19 @@
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>
-            </RefreshView>
+            </ScrollView>
             <StackLayout Grid.Row="1" BackgroundColor="Transparent">
-                <ActivityIndicator IsRunning="{Binding IsRefreshing}" Color="{StaticResource Primary}" Scale="3" />
+                <ActivityIndicator IsRunning="{Binding IsLoadingData}" Color="{StaticResource Primary}" Scale="3" />
             </StackLayout>
-            <StackLayout VerticalOptions="End" HorizontalOptions="Center" Grid.Row="2" Padding="5">
-                <Grid ColumnDefinitions="1*, 1*" RowDefinitions="1*, Auto" Padding="0,0,12,0">
-                    <Button Margin="5" Grid.Row="0" Grid.Column="0" Text="Add New Savings" Command="{Binding AddSavingsEntryCommand}" />
-                    <Button Margin="5" Grid.Row="0" Grid.Column="1" Text="Add New Debt" Command="{Binding AddDebtEntryCommand}" />
+            <StackLayout Grid.Row="1" BackgroundColor="Yellow">
+                <Grid ColumnDefinitions="Auto,*">
+                    <Label Grid.Column="0" Padding="20,12,0,0" WidthRequest="200" HeightRequest="50" Text="Total Savings:" HorizontalTextAlignment="Center" ></Label>
+                    <Entry Grid.Column="1" Text ="{Binding TotalSavings}" VerticalOptions="Start" />
+                </Grid>
+            </StackLayout>
+            <StackLayout Grid.Row="2"  VerticalOptions="End" HorizontalOptions="FillAndExpand" Padding="5,0,0,0">
+                <Grid RowDefinitions="*,auto">
+                    <Button Grid.Row="1"  Margin="0,5,10,0" Text="Add New Savings" Command="{Binding AddSavingsEntryCommand}" />
                 </Grid>
             </StackLayout>
         </Grid>

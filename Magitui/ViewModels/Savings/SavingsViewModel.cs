@@ -1,46 +1,53 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Magitui.Models;
 using Magitui.Services;
+using Magitui.Views;
+using Magitui.Views.Debts;
 using Microsoft.Maui.Controls;
 
 namespace Magitui.ViewModels.Savings
 {
     public class SavingsViewModel : BaseViewModel
     {
-        private GitHubRepoService _gitHubRepoService;
-        private ICommand _addSavingsEntryCommand;
-        private ICommand _addDebtEntryCommand;
-        private ICommand _refreshCommand;
+        private readonly GitHubRepoService _gitHubRepoService;
+        private readonly CalculatorService _calculatorService;
+        private ICommand _addSavingsEntryCommand, _addDebtEntryCommand,_loadSavingsCommand;
         private AddSavingsEntry _selectedAddSavingsEntry;
-        private bool _isBusy;
-
-        public ICommand RefreshCommand => _refreshCommand ??= new Command(FetchSavingsEntries);
-
-        private void FetchSavingsEntries()
-        {
-            Debug.WriteLine("I am refreshing");
-        }
-
-
-        public ICommand AddSavingsEntryCommand => _addSavingsEntryCommand ??=
-            new Command(async () =>  await Shell.Current.GoToAsync("addSavingsEntry"));
-        
-        public ICommand AddDebtEntryCommand => _addDebtEntryCommand ??=
-            new Command(async () => await Shell.Current.GoToAsync("addDebtEntry"));
-
+        private float _totalSavings;
 
         public ObservableCollection<AddSavingsEntry> SavingsEntries { get; } = new();
+
+        internal async Task OnAppearing() => await LoadSavingsAsync();
+
+        public ICommand AddSavingsEntryCommand => _addSavingsEntryCommand ??=
+            new Command(async () =>  await Shell.Current.GoToAsync(nameof(AddSavingsEntryPage)));
+
+        public ICommand LoadSavingsCommand => _loadSavingsCommand ??=
+            new Command(async () => await LoadSavingsAsync());
+
+        public ICommand AddDebtEntryCommand => _addDebtEntryCommand ??=
+            new Command(async () => await Shell.Current.GoToAsync(nameof(AddDeptEntryPage)));
+
 
         public SavingsViewModel()
         {
             _gitHubRepoService = new GitHubRepoService();
-            //var read = _gitHubRepoService.ReadSavingsFileAsync();
+            _calculatorService = new CalculatorService();
 
-            SavingsEntries.Add(new AddSavingsEntry { Name = "Gezamelijke rekening", Amount = 2900f });
-            SavingsEntries.Add(new AddSavingsEntry { Name = "Gezamelijke spaarrekening", Amount = 10000 });
+        }
+        private async Task LoadSavingsAsync()
+        {
+            IsLoadingData = true;
+            var savingsEntries = await _gitHubRepoService.ReadSavingsFileAsync();
+            SavingsEntries.Clear();
+            foreach (var savingsEntry in savingsEntries) SavingsEntries.Add(savingsEntry);
+            TotalSavings = _calculatorService.CalculateTotal(SavingsEntries);
+            IsLoadingData = false;
+
         }
 
         public AddSavingsEntry SelectedAddSavingsEntry
@@ -53,17 +60,20 @@ namespace Magitui.ViewModels.Savings
             }
         }
 
-
-
-        public bool IsBusy
+        public float TotalSavings
         {
-            get => _isBusy;
+            get => _totalSavings;
             set
             {
-                _isBusy = value;
+                _totalSavings = value;
                 OnPropertyChanged();
             }
         }
+
+       
+
+
+
 
 
     }
