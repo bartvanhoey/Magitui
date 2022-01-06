@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Magitui.Pages.SavingsPage"
+             xmlns:savings="clr-namespace:Magitui.ViewModels.Savings"
+             xmlns:fontawesome="clr-namespace:Magitui.Resources.Fonts"
+             Title="Savings"
+             BackgroundColor="White">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Add" >
+            <ToolbarItem.IconImageSource>
+                <FontImageSource Size="Small" FontFamily="FAS"
+                    Glyph="{x:Static fontawesome:FAIcons.Plus}" />
+            </ToolbarItem.IconImageSource>
+        </ToolbarItem>
+    </ContentPage.ToolbarItems>
+
+    <ContentPage.Content>
+        <Grid RowDefinitions="*,auto,auto">
+            <ScrollView Grid.Row="0" BackgroundColor="Transparent" >
+                <CollectionView
+                    SelectedItems="{Binding SelectedAddSavingsEntry}"
+                    ItemsSource="{Binding SavingsEntries}"
+                    SelectionMode="Single"
+                    BackgroundColor="White">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <SwipeView>
+                                <SwipeView.RightItems>
+                                    <SwipeItems>
+                                        <SwipeItem
+                                            BackgroundColor="Red"
+                                            IsDestructive="True"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type savings:SavingsViewModel}}, 
+                                                    Path=ShowDeleteSavingPopupCommand}"
+                                            CommandParameter="{Binding .}">
+                                            <SwipeItem.IconImageSource>
+                                                <FontImageSource Size="Small" FontFamily="FAS"
+                                                                 Glyph="{x:Static fontawesome:FAIcons.TrashAlt}" />
+                                            </SwipeItem.IconImageSource>
+                                        </SwipeItem>
+                                        <SwipeItem
+                                            BackgroundColor="Orange"
+                                            IsDestructive="True"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type savings:SavingsViewModel}}, 
+                                                    Path=EditSavingCommand}"
+                                            CommandParameter="{Binding .}">
+                                            <SwipeItem.IconImageSource>
+                                                <FontImageSource Size="Small" FontFamily="FAS"
+                                                                 Glyph="{x:Static fontawesome:FAIcons.PencilAlt}" />
+                                            </SwipeItem.IconImageSource>
+                                        </SwipeItem>
+                                    </SwipeItems>
+                                </SwipeView.RightItems>
+                                <Grid RowDefinitions="60" Padding="12,7,10,7">
+                                    <Frame Padding="20,10,10,10" CornerRadius="5" HasShadow="True">
+                                        <StackLayout Orientation="Horizontal">
+
+
+                                            <Label Margin="15,0,0,0" 
+                                       Text="{Binding Name}"
+                                       FontSize="Medium" TextColor="Black"
+                                       VerticalOptions="Start"
+                                       LineBreakMode="TailTruncation"/>
+                                            <Label Margin="15,0,0,0"
+                                       Text="{Binding Amount}"  
+                                       TextColor="Black"
+                                       LineBreakMode="TailTruncation"
+                                       FontSize="Medium"
+                                       VerticalOptions="End" />
+
+                                        </StackLayout>
+                                    </Frame>
+                                </Grid>
+                            </SwipeView>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </ScrollView>
+            <StackLayout Grid.Row="1" BackgroundColor="Transparent">
+                <ActivityIndicator IsRunning="{Binding IsLoadingData}" Color="{StaticResource Primary}" Scale="3" />
+            </StackLayout>
+            <StackLayout Grid.Row="2" BackgroundColor="Yellow">
+                <Grid ColumnDefinitions="Auto,*">
+                    <Label Grid.Column="0" Padding="20,12,0,0" WidthRequest="200" HeightRequest="50" Text="Total Savings:" HorizontalTextAlignment="Center" ></Label>
+                    <Entry Grid.Column="1" Text ="{Binding TotalSavings}" VerticalOptions="Start" />
+                </Grid>
+            </StackLayout>
+            <!--<StackLayout Grid.Row="2"  VerticalOptions="End" HorizontalOptions="FillAndExpand" Padding="5,0,0,0">
+                <Grid RowDefinitions="*,auto">
+                    <Button Grid.Row="1"  Margin="0,5,10,0" Text="Add New Savings" Command="{Binding AddSavingsEntryCommand}" />
+                </Grid>
+            </StackLayout>-->
+
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>
