@@ -69,6 +69,7 @@
 	<ItemGroup>
 	  <Folder Include="FontAwesome\" />
 	  <Folder Include="Services\Extensions\" />
+	  <Folder Include="Services\Storage\" />
 	  <Folder Include="Views\" />
 	</ItemGroup>
 
@@ -78,10 +79,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiXaml Update="Pages\Credits\AddCreditPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Pages\Credits\CreditsPage.xaml">
+	  <MauiXaml Update="Pages\DesktopShell.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\FavoritesPage.xaml">
@@ -91,6 +89,9 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\MapPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\MobileShell.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\Savings\AddSavingsPage.xaml">

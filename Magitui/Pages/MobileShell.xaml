@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Shell xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Magitui.MobileShell"
+             Title="MobileShell"
+             xmlns:fontawesome="clr-namespace:Magitui.Resources.Fonts"
+             xmlns:page="clr-namespace:Magitui.Pages">
+
+    <TabBar>
+        <Tab Title="Home">
+            <Tab.Icon>
+                <FontImageSource FontFamily="FAS" Glyph="{x:Static fontawesome:FAIcons.Home}"/>
+            </Tab.Icon>
+            <ShellContent ContentTemplate="{DataTemplate page:HomePage}"/>
+        </Tab>
+        <Tab Title="Savings">
+            <Tab.Icon>
+                <FontImageSource FontFamily="FAS" Glyph="{x:Static fontawesome:FAIcons.DollarSign}"/>
+            </Tab.Icon>
+            <ShellContent ContentTemplate="{DataTemplate page:SavingsPage}"/>
+        </Tab>
+        <Tab Title="Favorites" Icon="tab_favorites.png">
+            <ShellContent ContentTemplate="{DataTemplate page:FavoritesPage}"/>
+        </Tab>
+        <Tab Title="Map" Icon="tab_map.png">
+            <ShellContent ContentTemplate="{DataTemplate page:MapPage}"/>
+        </Tab>
+        <Tab Title="Settings" Icon="tab_settings.png">
+            <ShellContent ContentTemplate="{DataTemplate page:SettingsPage}"/>
+        </Tab>
+    </TabBar>
+
+</Shell>

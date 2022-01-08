@@ -1,40 +1,33 @@
-﻿using Magitui.Models;
-using Magitui.Services.Calculator;
-using Magitui.Services.File;
-
-namespace Magitui.ViewModels.Savings
+﻿namespace Magitui.ViewModels.Savings
 {
-    public class SavingsViewModel : BaseViewModel
+    public class SavingsViewModel : ViewModelBase
     {
-
-        public SavingsViewModel(ISavingsFileService savingsFileService, ICalculatorService calculatorService)
+        public SavingsViewModel()
         {
-            _savingsFileService= savingsFileService;
-            _calculatorService=calculatorService;
+            _calculatorService = ServicesProvider.GetService<ICalculatorService>();
+            _savingsFileService =ServicesProvider.GetService<ISavingsFileService>();
         }
 
         private readonly ISavingsFileService _savingsFileService;
         private readonly ICalculatorService _calculatorService;
         private ICommand _addSavingsEntryCommand, _loadSavingsCommand, _showDeleteSavingPopupCommand, _editSavingCommand;
-        private AddSavingsEntry _selectedAddSavingsEntry;
+        private SavingsDto _selectedAddSavingsEntry;
         private float _totalSavings;
 
-        public ObservableCollection<AddSavingsEntry> SavingsEntries { get; } = new();
+        public ObservableCollection<SavingsDto> SavingsEntries { get; } = new();
 
-        internal async Task OnAppearing() => await LoadSavingsAsync();
+        internal async Task InitializeAsync() => await LoadSavingsAsync();
 
         public ICommand AddSavingsEntryCommand => _addSavingsEntryCommand ??=
-            new MvvmHelpers.Commands.Command(async () => await Shell.Current.GoToAsync(nameof(AddSavingsPage)));
+            new AsyncCommand(async () => await Shell.Current.GoToAsync(nameof(AddSavingsPage)));
 
         public ICommand LoadSavingsCommand => _loadSavingsCommand ??= new AsyncCommand(LoadSavingsAsync);
 
-        public ICommand ShowDeleteSavingPopupCommand => _showDeleteSavingPopupCommand ??= new AsyncCommand<AddSavingsEntry>(ShowDeleteSavingPopupAsync);
-        //new AsyncCommand<AddSavingsEntry>(async (SelectedItem) => await ShowDeleteSavingPopupAsync(SelectedItem));
+        public ICommand ShowDeleteSavingPopupCommand => _showDeleteSavingPopupCommand ??= new AsyncCommand<SavingsDto>(ShowDeleteSavingPopupAsync);
 
-        public ICommand EditSavingCommand => _editSavingCommand ??= new AsyncCommand<AddSavingsEntry>(EditSavingAsync);
-            //new AsyncCommand<AddSavingsEntry>(async (SelectedItem) => await EditSavingAsync(SelectedItem));
+        public ICommand EditSavingCommand => _editSavingCommand ??= new AsyncCommand<SavingsDto>(EditSavingAsync);
 
-        private async Task EditSavingAsync(AddSavingsEntry addSavingsEntry)
+        private async Task EditSavingAsync(SavingsDto addSavingsEntry)
         {
             addSavingsEntry.Name = "I Dont KNow";
             await _savingsFileService.EditItemAsync(addSavingsEntry);
@@ -42,7 +35,7 @@ namespace Magitui.ViewModels.Savings
         }
 
 
-        private async Task ShowDeleteSavingPopupAsync(AddSavingsEntry addSavingsEntry)
+        private async Task ShowDeleteSavingPopupAsync(SavingsDto addSavingsEntry)
         {
             await _savingsFileService.DeleteItemAsync(addSavingsEntry);
             await LoadSavingsAsync();
@@ -52,7 +45,7 @@ namespace Magitui.ViewModels.Savings
         private async Task LoadSavingsAsync()
         {
             IsLoadingData = true;
-            var savingsEntries = await _savingsFileService.ReadItemsAsync<AddSavingsEntry>();
+            var savingsEntries = await _savingsFileService.ReadItemsAsync<SavingsDto>();
             SavingsEntries.Clear();
             foreach (var savingsEntry in savingsEntries) SavingsEntries.Add(savingsEntry);
             TotalSavings = _calculatorService.CalculateTotal(SavingsEntries);
@@ -60,24 +53,16 @@ namespace Magitui.ViewModels.Savings
 
         }
 
-        public AddSavingsEntry SelectedAddSavingsEntry
+        public SavingsDto SelectedAddSavingsEntry
         {
             get => _selectedAddSavingsEntry;
-            set
-            {
-                _selectedAddSavingsEntry = value;
-                OnPropertyChanged();
-            }
+            set => SetProperty(ref _selectedAddSavingsEntry, value);
         }
 
         public float TotalSavings
         {
             get => _totalSavings;
-            set
-            {
-                _totalSavings = value;
-                OnPropertyChanged();
-            }
+            set => SetProperty(ref _totalSavings, value);
         }
 
     }

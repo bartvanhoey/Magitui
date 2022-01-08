@@ -1,16 +1,11 @@
 ﻿using Magitui.Services.Calculator;
 using Magitui.Services.File;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Magitui.Models
 {
-    public class AddSavingsEntry : ICalculable, IHaveGuidId
+    public class SavingsDto : ICalculable, IHaveGuidId
     {
-        public Guid Id { get; set; } = Guid.NewGuid();
+        public Guid Id { get; set; } 
         public string BelongsTo { get; set; }
         public string Name { get; set; }
         public float Amount { get; set; }

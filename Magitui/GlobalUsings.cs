@@ -15,4 +15,10 @@ global using System.Linq;
 global using System.Threading.Tasks;
 global using System.Windows.Input;
 global using System.Collections.ObjectModel;
+global using Magitui.Services.Infrastructure;
+global using Magitui.Models;
+global using Magitui.Services.Calculator;
+global using Magitui.Services.File;
+global using Magitui.Pages;
+
 //global using Microsoft.NetConf2021.Maui.Helpers;

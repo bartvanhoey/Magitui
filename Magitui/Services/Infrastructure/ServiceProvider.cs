@@ -1,6 +1,7 @@
-﻿namespace Magitui.Services.Extensions
+﻿namespace Magitui.Services.Infrastructure
 {
-    public static class ServiceProvider
+    public static class ServicesProvider
+
     {
         public static TService GetService<TService>()
             => Current.GetService<TService>();

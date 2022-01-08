@@ -4,8 +4,7 @@
              x:Class="Magitui.Pages.SavingsPage"
              xmlns:savings="clr-namespace:Magitui.ViewModels.Savings"
              xmlns:fontawesome="clr-namespace:Magitui.Resources.Fonts"
-             Title="Savings"
-             BackgroundColor="White">
+             Title="Savings">
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Add" >
             <ToolbarItem.IconImageSource>
@@ -16,13 +15,12 @@
     </ContentPage.ToolbarItems>
 
     <ContentPage.Content>
-        <Grid RowDefinitions="*,auto,auto">
+        <Grid RowDefinitions="*,auto,auto,auto">
             <ScrollView Grid.Row="0" BackgroundColor="Transparent" >
                 <CollectionView
                     SelectedItems="{Binding SelectedAddSavingsEntry}"
                     ItemsSource="{Binding SavingsEntries}"
-                    SelectionMode="Single"
-                    BackgroundColor="White">
+                    SelectionMode="Single">
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
                             <SwipeView>
@@ -52,23 +50,13 @@
                                         </SwipeItem>
                                     </SwipeItems>
                                 </SwipeView.RightItems>
-                                <Grid RowDefinitions="60" Padding="12,7,10,7">
-                                    <Frame Padding="20,10,10,10" CornerRadius="5" HasShadow="True">
-                                        <StackLayout Orientation="Horizontal">
-
-
-                                            <Label Margin="15,0,0,0" 
-                                       Text="{Binding Name}"
-                                       FontSize="Medium" TextColor="Black"
-                                       VerticalOptions="Start"
-                                       LineBreakMode="TailTruncation"/>
-                                            <Label Margin="15,0,0,0"
-                                       Text="{Binding Amount}"  
-                                       TextColor="Black"
-                                       LineBreakMode="TailTruncation"
-                                       FontSize="Medium"
-                                       VerticalOptions="End" />
-
+                                <Grid RowDefinitions="80" Padding="5">
+                                    <Frame Padding="10" CornerRadius="5" HasShadow="True" BackgroundColor="Transparent">
+                                        <StackLayout Orientation="Vertical">
+                                            <Label Margin="15,0,0,0" Text="{Binding Name}" FontSize="Medium" TextColor="WhiteSmoke"
+                                                    VerticalOptions="Start" LineBreakMode="TailTruncation"/>
+                                            <Label Margin="15,0,0,0" Text="{Binding Amount}" TextColor="WhiteSmoke" LineBreakMode="TailTruncation"
+                                                    FontSize="Medium" VerticalOptions="End" />
                                         </StackLayout>
                                     </Frame>
                                 </Grid>
@@ -80,18 +68,13 @@
             <StackLayout Grid.Row="1" BackgroundColor="Transparent">
                 <ActivityIndicator IsRunning="{Binding IsLoadingData}" Color="{StaticResource Primary}" Scale="3" />
             </StackLayout>
-            <StackLayout Grid.Row="2" BackgroundColor="Yellow">
-                <Grid ColumnDefinitions="Auto,*">
-                    <Label Grid.Column="0" Padding="20,12,0,0" WidthRequest="200" HeightRequest="50" Text="Total Savings:" HorizontalTextAlignment="Center" ></Label>
-                    <Entry Grid.Column="1" Text ="{Binding TotalSavings}" VerticalOptions="Start" />
+            <StackLayout Grid.Row="2">
+                <Grid ColumnDefinitions="Auto,Auto,*">
+                    <Button Grid.Column="0" Margin="5,5,0,5" Text="Add New Saving" Command="{Binding AddSavingsEntryCommand}" />
+                    <Label Grid.Column="1" TextColor="Yellow" Padding="10,12,0,0" HeightRequest="50" Text="Total:" HorizontalTextAlignment="Center"/>
+                    <Label Grid.Column="2" TextColor="Yellow" Padding="5,12,0,10" HeightRequest="50" Text ="{Binding TotalSavings}" HorizontalTextAlignment="Center" FontSize="Medium" />
                 </Grid>
             </StackLayout>
-            <!--<StackLayout Grid.Row="2"  VerticalOptions="End" HorizontalOptions="FillAndExpand" Padding="5,0,0,0">
-                <Grid RowDefinitions="*,auto">
-                    <Button Grid.Row="1"  Margin="0,5,10,0" Text="Add New Savings" Command="{Binding AddSavingsEntryCommand}" />
-                </Grid>
-            </StackLayout>-->
-
         </Grid>
     </ContentPage.Content>
 </ContentPage>

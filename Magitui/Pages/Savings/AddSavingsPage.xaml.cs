@@ -1,15 +1,19 @@
-using System;
-using Microsoft.Maui;
-using Microsoft.Maui.Controls;
-using Microsoft.Maui.Controls.Xaml;
+using Magitui.ViewModels.Savings;
 
 namespace Magitui
 {
-	public partial class AddSavingsPage : ContentPage
+    public partial class AddSavingsPage : ContentPage
 	{
-		public AddSavingsPage()
+        private readonly AddSavingsViewModel viewmodel;
+
+        public AddSavingsPage()
 		{
 			InitializeComponent();
+			BindingContext = viewmodel= new AddSavingsViewModel();
 		}
-	}
+
+    
+
+
+    }
 }

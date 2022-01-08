@@ -18,5 +18,8 @@ namespace Magitui.Extensions
                 PropertyNameCaseInsensitive = true
             });
         }
+
+        public static bool IsNullOrWhiteSpace(this string text) => string.IsNullOrWhiteSpace(text);
+        public static bool IsNotNullOrWhiteSpace(this string text) => !string.IsNullOrWhiteSpace(text);
     }
 }

@@ -11,10 +11,21 @@ public partial class App : Application
 	{
 		InitializeComponent();
 
-        if (Device.Idiom == TargetIdiom.Phone)
-            Shell.Current.CurrentItem = PhoneTabs;
+        //if (Device.Idiom == TargetIdiom.Phone)
+        //    Shell.Current.CurrentItem = PhoneTabs;
+
+
+        if (Config.Desktop)
+            MainPage = new DesktopShell();
+        else
+            MainPage = new MobileShell();
+
+
+
 
         Routing.RegisterRoute("settings", typeof(SettingsPage));
+        Routing.RegisterRoute(nameof(AddSavingsPage), typeof(AddSavingsPage));
+        Routing.RegisterRoute(nameof(SavingsPage), typeof(SavingsPage));
 
         //MainPage = new MainPage();
     }

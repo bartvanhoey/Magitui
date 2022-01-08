@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Magitui.ViewModels.Credits
+namespace Magitui.ViewModels
 {
-    internal class CreditsViewModel
+    internal class HomeViewModel
     {
     }
 }

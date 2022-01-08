@@ -46,6 +46,7 @@ namespace Magitui.Services.File
 
                     if (operation == FileOperation.Add)
                     {
+                        item.Id = Guid.NewGuid();
                         listOfType?.Add(item);
                         json = listOfType.ConvertToJson();
                     }

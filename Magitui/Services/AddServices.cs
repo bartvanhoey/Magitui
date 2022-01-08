@@ -1,5 +1,6 @@
 ﻿using Magitui.Services.Calculator;
 using Magitui.Services.File;
+using Magitui.Services.Storage;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,7 @@ public static class AddServices
 
         builder.Services.AddSingleton<ISavingsFileService, SavingsFileService>();
         builder.Services.AddSingleton<ICalculatorService, CalculatorService>();
+        builder.Services.AddSingleton<IStorageService, StorageService>();
 
 
         //        builder.Services.AddBlazorWebView();
