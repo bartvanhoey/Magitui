@@ -68,11 +68,13 @@
 
 	<ItemGroup>
 	  <Folder Include="FontAwesome\" />
+	  <Folder Include="Services\Extensions\" />
 	  <Folder Include="Views\" />
 	</ItemGroup>
 
 	<ItemGroup>
 	  <PackageReference Include="Octokit" Version="0.50.0" />
+	  <PackageReference Include="Refractored.MvvmHelpers" Version="1.6.2" />
 	</ItemGroup>
 
 	<ItemGroup>

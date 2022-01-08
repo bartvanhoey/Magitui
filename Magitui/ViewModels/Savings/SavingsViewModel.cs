@@ -1,8 +1,6 @@
 ﻿using Magitui.Models;
 using Magitui.Services.Calculator;
 using Magitui.Services.File;
-using System.Collections.ObjectModel;
-using System.Windows.Input;
 
 namespace Magitui.ViewModels.Savings
 {
@@ -26,16 +24,15 @@ namespace Magitui.ViewModels.Savings
         internal async Task OnAppearing() => await LoadSavingsAsync();
 
         public ICommand AddSavingsEntryCommand => _addSavingsEntryCommand ??=
-            new Command(async () => await Shell.Current.GoToAsync(nameof(AddSavingsPage)));
+            new MvvmHelpers.Commands.Command(async () => await Shell.Current.GoToAsync(nameof(AddSavingsPage)));
 
-        public ICommand LoadSavingsCommand => _loadSavingsCommand ??=
-            new Command(async () => await LoadSavingsAsync());
+        public ICommand LoadSavingsCommand => _loadSavingsCommand ??= new AsyncCommand(LoadSavingsAsync);
 
-        public ICommand ShowDeleteSavingPopupCommand => _showDeleteSavingPopupCommand ??=
-            new Command<AddSavingsEntry>(async (SelectedItem) => await ShowDeleteSavingPopupAsync(SelectedItem));
+        public ICommand ShowDeleteSavingPopupCommand => _showDeleteSavingPopupCommand ??= new AsyncCommand<AddSavingsEntry>(ShowDeleteSavingPopupAsync);
+        //new AsyncCommand<AddSavingsEntry>(async (SelectedItem) => await ShowDeleteSavingPopupAsync(SelectedItem));
 
-        public ICommand EditSavingCommand => _editSavingCommand ??=
-            new Command<AddSavingsEntry>(async (SelectedItem) => await  EditSavingAsync(SelectedItem));
+        public ICommand EditSavingCommand => _editSavingCommand ??= new AsyncCommand<AddSavingsEntry>(EditSavingAsync);
+            //new AsyncCommand<AddSavingsEntry>(async (SelectedItem) => await EditSavingAsync(SelectedItem));
 
         private async Task EditSavingAsync(AddSavingsEntry addSavingsEntry)
         {

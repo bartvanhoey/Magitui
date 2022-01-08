@@ -1,5 +1,7 @@
 ﻿using Magitui.Services.Calculator;
 using Magitui.Services.File;
+using Magitui.Services;
+using Magitui.Services.Infrastructure;
 
 namespace Magitui;
 
@@ -10,6 +12,8 @@ public static class MauiProgram
         var builder = MauiApp.CreateBuilder();
         builder
             .UseMauiApp<App>()
+            .ConfigureAppBuilder()
+            .ConfigureServices()
             .ConfigureFonts(fonts =>
             {
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
@@ -19,9 +23,7 @@ public static class MauiProgram
 
             });
 
-        builder.Services.AddSingleton<ISavingsFileService, SavingsFileService>();
-        builder.Services.AddSingleton<ICalculatorService, CalculatorService>();
-
+  
         return builder.Build();
     }
 }
