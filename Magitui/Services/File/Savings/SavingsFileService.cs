@@ -1,12 +1,5 @@
 ﻿using Magitui.Extensions;
-using Magitui.Models;
 using Octokit;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace Magitui.Services.File
 {
@@ -16,25 +9,25 @@ namespace Magitui.Services.File
         {
             _repoName = App.AppSettings.RepoName;
             _branchName = App.AppSettings.BranchName;
-            _gitHubUserName = App.AppSettings.GitHubUserName;
-            _appName = App.AppSettings.AppName;
+            //_gitHubUserName = App.AppSettings.GitHubUserName;
+            //_appName = App.AppSettings.AppName;
             _savingsDataFile = App.AppSettings.SavingsDataFileName;
 
-            try
-            {
-                _personalAccessToken = App.AppSettings.PersonalAccessToken;
-                _gitHubClient = new GitHubClient(new ProductHeaderValue(_appName))
-                {
-                    Credentials = new Credentials(_personalAccessToken)
-                };
-                var user = _gitHubClient.User.Get(_gitHubUserName);
-                _repoContent = _gitHubClient.Repository.Content;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                throw;
-            }
+            //try
+            //{
+            //    _personalAccessToken = App.AppSettings.PersonalAccessToken;
+            //    _gitHubClient = new GitHubClient(new ProductHeaderValue(_appName))
+            //    {
+            //        Credentials = new Credentials(_personalAccessToken)
+            //    };
+            //    var user = _gitHubClient.User.Get(_gitHubUserName);
+            //    _repoContent = _gitHubClient.Repository.Content;
+            //}
+            //catch (Exception e)
+            //{
+            //    Console.WriteLine(e);
+            //    throw;
+            //}
         }
 
         public async Task<List<T>> ReadItemsAsync<T>() where T : IHaveGuidId

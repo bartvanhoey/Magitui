@@ -1,4 +1,5 @@
-﻿using Magitui.Services.Storage;
+﻿using Magitui.Services.RepoContent;
+using Magitui.Services.Storage;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,9 +13,12 @@ namespace Magitui.ViewModels
         private string _gitHubUserName, _gitHubBranchName, _personalAccessToken;
         private ICommand _saveCommand;
         private readonly IStorageService _storageService;
+        private readonly IRepoContentService _repoContentService;
+
         public HomeViewModel()
         {
             _storageService = ServicesProvider.GetService<IStorageService>();
+            _repoContentService = ServicesProvider.GetService<IRepoContentService>();
         }
         public ICommand SaveCommand => _saveCommand ??=
             new AsyncCommand(SaveCredentialsAsync);
@@ -38,7 +42,7 @@ namespace Magitui.ViewModels
 
         public async Task InitializeAsync()
         {
-           
+            var repoContent = await _repoContentService.GetRepositoryContentsClient();
         }
 
         public string PersonalAccessToken

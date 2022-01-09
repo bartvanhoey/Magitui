@@ -1,4 +1,5 @@
 ﻿using Magitui.Extensions;
+using Magitui.Services.RepoContent;
 using Octokit;
 using System.Diagnostics;
 using System.Globalization;
@@ -15,17 +16,32 @@ namespace Magitui.Services.File
         protected string _personalAccessToken;
         protected string _appName;
         protected string _savingsDataFile;
+        private IRepoContentService _repoContentService;
         protected IRepositoryContentsClient _repoContent;
+
+        public FileServiceBase()
+        {
+           _repoContentService = ServicesProvider.GetService<IRepoContentService>();
+           _repoContent = _repoContentService.GetRepositoryContentsClient().Result;
+        }
 
 
         protected async Task<RepositoryContent> GetFileAsync(string fileName)
         {
+            if(_repoContent == null) 
+                _repoContent = await _repoContentService.GetRepositoryContentsClient();
+
+            // Todo username repo branch from secure storage
+
             var contentsByRef = await _repoContent.GetAllContentsByRef(_gitHubUserName, _repoName, _branchName);
             return contentsByRef.FirstOrDefault(x => x.Name == fileName);
         }
 
         protected async Task UpdateFileAsync<T>(T item, string dataFile, FileOperation operation) where T : IHaveGuidId
         {
+            if (_repoContent == null)
+                _repoContent = await _repoContentService.GetRepositoryContentsClient();
+
             try
             {
                 var file = await GetFileAsync(dataFile);
