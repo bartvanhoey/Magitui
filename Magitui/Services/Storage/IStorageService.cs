@@ -2,6 +2,6 @@
 
 public interface IStorageService
 {
-    Task SetPersonalAccessTokenAsync(string personalAccessToken);
-    Task<string> GetPersonalAccessTokenAsync();
+    Task SetGitHubCredentialsAsync(string personalAccessToken, string gitHubUserName, string gitHubBranchName);
+    Task<(string personalAccessToken, string gitHubUserName, string gitHubBranchName)> GetGitHubCredentialsAsync();
 }
