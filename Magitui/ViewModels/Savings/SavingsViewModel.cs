@@ -50,7 +50,6 @@
             foreach (var savingsEntry in savingsEntries) SavingsEntries.Add(savingsEntry);
             TotalSavings = _calculatorService.CalculateTotal(SavingsEntries);
             IsLoadingData = false;
-
         }
 
         public SavingsDto SelectedAddSavingsEntry

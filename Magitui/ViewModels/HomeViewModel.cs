@@ -10,28 +10,36 @@ namespace Magitui.ViewModels
 {
     public class HomeViewModel : ViewModelBase
     {
-        private string _gitHubUserName, _gitHubBranchName, _personalAccessToken;
+        private string _gitHubUserName, _gitHubBranchName, _personalAccessToken, _gitHubRepositoryName;
+
         private ICommand _saveCommand;
         private readonly IStorageService _storageService;
-        private readonly IRepoContentService _repoContentService;
+        private readonly IGitHubInfoService _gitHubInfoService;
 
         public HomeViewModel()
         {
             _storageService = ServicesProvider.GetService<IStorageService>();
-            _repoContentService = ServicesProvider.GetService<IRepoContentService>();
+            _gitHubInfoService = ServicesProvider.GetService<IGitHubInfoService>();
         }
         public ICommand SaveCommand => _saveCommand ??=
             new AsyncCommand(SaveCredentialsAsync);
 
         private async Task SaveCredentialsAsync()
         {
-            await _storageService.SetGitHubCredentialsAsync(PersonalAccessToken, GitHubUserName, GitHubBranchName);
+            //var info = await _gitHubInfoService.GetGitHubInfo();
+            await _storageService.SetGitHubCredentialsAsync(PersonalAccessToken, GitHubUserName, GitHubBranchName, GitHubRepositoryName);
         }
 
         public string GitHubUserName
         {
             get => _gitHubUserName;
             set => SetProperty(ref _gitHubUserName, value);
+        }
+
+        public string GitHubRepositoryName
+        {
+            get => _gitHubRepositoryName;
+            set => SetProperty(ref _gitHubRepositoryName, value);
         }
 
         public string GitHubBranchName
@@ -42,7 +50,8 @@ namespace Magitui.ViewModels
 
         public async Task InitializeAsync()
         {
-            var repoContent = await _repoContentService.GetRepositoryContentsClient();
+            //var ghInfo = await _gitHubInfoService.GetGitHubInfo();
+            //var repoContent = ghInfo.Client;
         }
 
         public string PersonalAccessToken

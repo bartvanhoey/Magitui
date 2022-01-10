@@ -18,7 +18,7 @@ public static class AddServices
         builder.Services.AddSingleton<ISavingsFileService, SavingsFileService>();
         builder.Services.AddSingleton<ICalculatorService, CalculatorService>();
         builder.Services.AddSingleton<IStorageService, StorageService>();
-        builder.Services.AddSingleton<IRepoContentService, RepoContentService>();
+        builder.Services.AddSingleton<IGitHubInfoService, GitHubInfoService>();
 
 
         //        builder.Services.AddBlazorWebView();

@@ -16,31 +16,28 @@ namespace Magitui.Services.File
         protected string _personalAccessToken;
         protected string _appName;
         protected string _savingsDataFile;
-        private IRepoContentService _repoContentService;
-        protected IRepositoryContentsClient _repoContent;
+        private IGitHubInfoService _gitHubInfoService;
+        protected GitHubInfo _gh;
 
         public FileServiceBase()
         {
-           _repoContentService = ServicesProvider.GetService<IRepoContentService>();
-           _repoContent = _repoContentService.GetRepositoryContentsClient().Result;
+           _gitHubInfoService = ServicesProvider.GetService<IGitHubInfoService>();
         }
 
 
         protected async Task<RepositoryContent> GetFileAsync(string fileName)
         {
-            if(_repoContent == null) 
-                _repoContent = await _repoContentService.GetRepositoryContentsClient();
+            if(_gh == null) 
+                _gh = await _gitHubInfoService.GetGitHubInfo();
 
-            // Todo username repo branch from secure storage
-
-            var contentsByRef = await _repoContent.GetAllContentsByRef(_gitHubUserName, _repoName, _branchName);
+            var contentsByRef = await _gh.Client.GetAllContentsByRef(_gh.UserName, _gh.RepositoryName, _gh.BranchName);
             return contentsByRef.FirstOrDefault(x => x.Name == fileName);
         }
 
         protected async Task UpdateFileAsync<T>(T item, string dataFile, FileOperation operation) where T : IHaveGuidId
         {
-            if (_repoContent == null)
-                _repoContent = await _repoContentService.GetRepositoryContentsClient();
+            if (_gh == null)
+                _gh = await _gitHubInfoService.GetGitHubInfo();
 
             try
             {
@@ -49,12 +46,12 @@ namespace Magitui.Services.File
                 var commitMessage = $"commit-{DateTime.Now.ToUniversalTime().ToString(CultureInfo.InvariantCulture)}";
                 if (file == null && operation == FileOperation.Add)
                 {
-                    var createFileRequest = new CreateFileRequest(commitMessage, $"[{json}]", _branchName);
-                    await _repoContent.CreateFile(_gitHubUserName, _repoName, _savingsDataFile, createFileRequest);
+                    var createFileRequest = new CreateFileRequest(commitMessage, $"[{json}]", _gh.BranchName);
+                    await _gh.Client.CreateFile(_gh.UserName, _gh.RepositoryName, _savingsDataFile, createFileRequest);
                 }
                 else
                 {
-                    var _ = await _repoContent.GetAllContentsByRef(_gitHubUserName, _repoName, _savingsDataFile, _branchName);
+                    var _ = await _gh.Client.GetAllContentsByRef(_gh.UserName, _gh.RepositoryName, _savingsDataFile, _gh.BranchName);
                     var content = _.FirstOrDefault()?.Content;
                     if (content == null) return;
                     var listOfType = content.ConvertToType<List<T>>();
@@ -80,8 +77,8 @@ namespace Magitui.Services.File
                         json = listOfType.ConvertToJson();
                     }
 
-                    var updateFileRequest = new UpdateFileRequest(commitMessage, json, file.Sha, _branchName);
-                    await _repoContent.UpdateFile(_gitHubUserName, _repoName, _savingsDataFile, updateFileRequest);
+                    var updateFileRequest = new UpdateFileRequest(commitMessage, json, file.Sha, _gh.BranchName);
+                    await _gh.Client.UpdateFile(_gh.UserName, _gh.RepositoryName, _savingsDataFile, updateFileRequest);
                 }
             }
             catch (Exception exception)
