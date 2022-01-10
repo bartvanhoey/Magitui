@@ -2,7 +2,7 @@
 
 # Magitui
 
-Magitui is a .NET MAUI app to keep track of your and your family s' financial situation.
+Magitui is a .NET MAUI app to keep track of your financial situation.
 
 The Magitui app store its data in a private GitHub repository.
 
