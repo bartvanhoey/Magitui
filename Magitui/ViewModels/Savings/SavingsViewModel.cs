@@ -21,7 +21,8 @@
         public ICommand AddSavingsEntryCommand => _addSavingsEntryCommand ??=
             new AsyncCommand(async () => await Shell.Current.GoToAsync(nameof(AddSavingsPage)));
 
-        public ICommand LoadSavingsCommand => _loadSavingsCommand ??= new AsyncCommand(LoadSavingsAsync);
+        public ICommand LoadSavingsCommand => _loadSavingsCommand ??= 
+            new AsyncCommand(LoadSavingsAsync);
 
         public ICommand ShowDeleteSavingPopupCommand => _showDeleteSavingPopupCommand ??= new AsyncCommand<SavingsDto>(ShowDeleteSavingPopupAsync);
 

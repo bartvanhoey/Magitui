@@ -19,13 +19,11 @@ public partial class App : Application
             MainPage = new DesktopShell();
         else
             MainPage = new MobileShell();
-
-
-
-
-        Routing.RegisterRoute("settings", typeof(SettingsPage));
+    
         Routing.RegisterRoute(nameof(AddSavingsPage), typeof(AddSavingsPage));
         Routing.RegisterRoute(nameof(SavingsPage), typeof(SavingsPage));
+        Routing.RegisterRoute(nameof(SettingsPage), typeof(SettingsPage));
+        Routing.RegisterRoute(nameof(HomePage), typeof(HomePage));
 
         //MainPage = new MainPage();
     }

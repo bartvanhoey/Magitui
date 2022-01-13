@@ -4,12 +4,12 @@ namespace Magitui.Services.Storage;
 
 public class StorageService : StorageServiceBase, IStorageService
 {
-    public async Task SetGitHubCredentialsAsync(string personalAccessToken, string gitHubUserName, string gitHubBranchName, string gitHubRepositoryName)
+    public async Task SetGitHubCredentialsAsync((string personalAccessToken, string gitHubUserName, string gitHubBranchName, string gitHubRepositoryName) credentials)
     {
-        await SetPersonalAccessTokenAsync(personalAccessToken);
-        await SetGitHubUserNameAsync(gitHubUserName);
-        await SetGitHubBranchNameAsync(gitHubBranchName);
-        await SetGitHubRepositoryNameAsync(gitHubRepositoryName);
+        await SetPersonalAccessTokenAsync(credentials.personalAccessToken);
+        await SetGitHubUserNameAsync(credentials.gitHubUserName);
+        await SetGitHubBranchNameAsync(credentials.gitHubBranchName);
+        await SetGitHubRepositoryNameAsync(credentials.gitHubRepositoryName);
     }
     public async Task<(string personalAccessToken, string gitHubUserName, string gitHubBranchName, string gitHubRepositoryName)> GetGitHubCredentialsAsync()
     {
@@ -20,6 +20,14 @@ public class StorageService : StorageServiceBase, IStorageService
         return (pat, userName, branchName, repoName);
     }
 
+    public async Task RemoveGitHubCredentialsAsync()
+    {
+        await RemoveAsync(GitHubRepositoryName);
+        await RemoveAsync(GitHubUserName);
+        await RemoveAsync(GitHubBranchName);
+        await RemoveAsync(PersonalAccessToken);
+    }
+
     private async Task SetGitHubRepositoryNameAsync(string gitHubRepositoryName)
         => await SetAsync(GitHubRepositoryName, gitHubRepositoryName);
 
@@ -27,7 +35,7 @@ public class StorageService : StorageServiceBase, IStorageService
         => await SetAsync(GitHubUserName, gitHubUserName);
 
     private async Task SetGitHubBranchNameAsync(string gitHubBranchName)
-    => await SetAsync(GitHubBranchName, gitHubBranchName);
+        => await SetAsync(GitHubBranchName, gitHubBranchName);
 
     private async Task SetPersonalAccessTokenAsync(string personalAccessToken)
         => await SetAsync(PersonalAccessToken, personalAccessToken);
@@ -43,6 +51,6 @@ public class StorageService : StorageServiceBase, IStorageService
     private async Task<string> GetPersonalAccessTokenAsync()
         => await GetAsync(PersonalAccessToken);
 
-
+    
 }
 

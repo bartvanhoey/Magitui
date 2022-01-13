@@ -1,15 +1,13 @@
-using System;
-using Microsoft.Maui;
-using Microsoft.Maui.Controls;
-using Microsoft.Maui.Controls.Xaml;
+using Magitui.ViewModels;
 
 namespace Magitui.Pages
 {
-	public partial class SettingsPage : ContentPage
+    public partial class SettingsPage : ContentPage
 	{
 		public SettingsPage()
 		{
 			InitializeComponent();
+			BindingContext = new SettingsViewModel();
 		}
 	}
 }

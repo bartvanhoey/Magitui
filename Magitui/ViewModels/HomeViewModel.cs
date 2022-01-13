@@ -1,10 +1,5 @@
 ﻿using Magitui.Services.RepoContent;
 using Magitui.Services.Storage;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Magitui.ViewModels
 {
@@ -13,6 +8,7 @@ namespace Magitui.ViewModels
         private string _gitHubUserName, _gitHubBranchName, _personalAccessToken, _gitHubRepositoryName;
 
         private ICommand _saveCommand;
+        private bool _isVisibleCredentials;
         private readonly IStorageService _storageService;
         private readonly IGitHubInfoService _gitHubInfoService;
 
@@ -26,8 +22,10 @@ namespace Magitui.ViewModels
 
         private async Task SaveCredentialsAsync()
         {
-            //var info = await _gitHubInfoService.GetGitHubInfo();
-            await _storageService.SetGitHubCredentialsAsync(PersonalAccessToken, GitHubUserName, GitHubBranchName, GitHubRepositoryName);
+            var credentials = (PersonalAccessToken, GitHubUserName, GitHubBranchName, GitHubRepositoryName);
+            await _storageService.SetGitHubCredentialsAsync(credentials);
+            var gitHubInfo = await _gitHubInfoService.GetGitHubInfo(credentials);
+            IsVisibleCredentials = gitHubInfo.IsAuthorized == false;
         }
 
         public string GitHubUserName
@@ -42,6 +40,12 @@ namespace Magitui.ViewModels
             set => SetProperty(ref _gitHubRepositoryName, value);
         }
 
+        public bool IsVisibleCredentials
+        {
+            get => _isVisibleCredentials;
+            set => SetProperty(ref _isVisibleCredentials, value);
+        }
+
         public string GitHubBranchName
         {
             get => _gitHubBranchName;
@@ -50,8 +54,9 @@ namespace Magitui.ViewModels
 
         public async Task InitializeAsync()
         {
-            //var ghInfo = await _gitHubInfoService.GetGitHubInfo();
-            //var repoContent = ghInfo.Client;
+            var credentials = await _storageService.GetGitHubCredentialsAsync();
+            var gitHubInfo = await _gitHubInfoService.GetGitHubInfo(credentials);
+            IsVisibleCredentials = gitHubInfo.IsAuthorized == false;
         }
 
         public string PersonalAccessToken

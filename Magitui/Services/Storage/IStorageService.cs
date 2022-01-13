@@ -2,6 +2,7 @@
 
 public interface IStorageService
 {
-    Task SetGitHubCredentialsAsync(string personalAccessToken, string gitHubUserName, string gitHubBranchName, string gitHubRepositoryName);
-    Task<(string personalAccessToken, string gitHubUserName, string gitHubBranchName, string gitHubRepositoryName)> GetGitHubCredentialsAsync();
+    Task SetGitHubCredentialsAsync((string personalAccessToken, string gitHubUserName, string gitHubBranchName, string gitHubRepositoryName) credentials);
+    Task<(string personalAccessToken, string gitHubUserName, string gitHubBranchName, string gitHubRepositoryName)>  GetGitHubCredentialsAsync();
+    Task RemoveGitHubCredentialsAsync();
 }
