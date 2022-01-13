@@ -1,8 +1,8 @@
+[![pages-build-deployment](https://github.com/bartvanhoey/Magitui/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/bartvanhoey/Magitui/actions/workflows/pages/pages-build-deployment)
+
 # Magitui
 
-Magitui is a .NET MAUI app to keep track of your and your family s' financial situation.
-
-The Magitui app store its data in a private GitHub repository.
+Magitui is a .NET MAUI app to keep track of your financial situation and stores it data in your own private GitHub repository.
 
 ## Prerequisites
 
