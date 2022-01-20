@@ -8,7 +8,7 @@ namespace Magitui.ViewModels
         private string _gitHubUserName, _gitHubBranchName, _personalAccessToken, _gitHubRepositoryName;
 
         private ICommand _saveCommand;
-        private bool _isVisibleCredentials;
+        private bool _showCredentialsInput;
         private readonly IStorageService _storageService;
         private readonly IGitHubInfoService _gitHubInfoService;
 
@@ -25,7 +25,7 @@ namespace Magitui.ViewModels
             var credentials = (PersonalAccessToken, GitHubUserName, GitHubBranchName, GitHubRepositoryName);
             await _storageService.SetGitHubCredentialsAsync(credentials);
             var gitHubInfo = await _gitHubInfoService.GetGitHubInfo(credentials);
-            IsVisibleCredentials = gitHubInfo.IsAuthorized == false;
+            ShowCredentialsInput = gitHubInfo.IsAuthorized == false;
         }
 
         public string GitHubUserName
@@ -40,10 +40,10 @@ namespace Magitui.ViewModels
             set => SetProperty(ref _gitHubRepositoryName, value);
         }
 
-        public bool IsVisibleCredentials
+        public bool ShowCredentialsInput
         {
-            get => _isVisibleCredentials;
-            set => SetProperty(ref _isVisibleCredentials, value);
+            get => _showCredentialsInput;
+            set => SetProperty(ref _showCredentialsInput, value);
         }
 
         public string GitHubBranchName
@@ -55,8 +55,10 @@ namespace Magitui.ViewModels
         public async Task InitializeAsync()
         {
             var credentials = await _storageService.GetGitHubCredentialsAsync();
-            var gitHubInfo = await _gitHubInfoService.GetGitHubInfo(credentials);
-            IsVisibleCredentials = gitHubInfo.IsAuthorized == false;
+            if (credentials == default)
+            {
+                ShowCredentialsInput = true;
+            }
         }
 
         public string PersonalAccessToken

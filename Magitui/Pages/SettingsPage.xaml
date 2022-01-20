@@ -2,11 +2,53 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Magitui.Pages.SettingsPage"
+              xmlns:settings="clr-namespace:Magitui.ViewModels.Settings"
+              xmlns:fontawesome="clr-namespace:Magitui.Resources.Fonts"
              Title="SettingsPage">
-    <Grid>
-        
-
-        <Button Text="Logout" Command="{Binding LogoutCommand}" />
-
-    </Grid>
+    <ContentPage.Content>
+        <Grid RowDefinitions="*,auto,auto">
+            <ScrollView Grid.Row="0" BackgroundColor="Transparent" >
+                <CollectionView
+                    SelectedItems="{Binding SelectedOwner}"
+                    ItemsSource="{Binding Owners}"
+                    SelectionMode="Single">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <SwipeView>
+                                <SwipeView.RightItems>
+                                    <SwipeItems>
+                                        <SwipeItem
+                                            BackgroundColor="Red"
+                                            IsDestructive="True"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type settings:SettingsViewModel}}, 
+                                                    Path=ShowDeleteSavingPopupCommand}"
+                                            CommandParameter="{Binding .}">
+                                            <SwipeItem.IconImageSource>
+                                                <FontImageSource Size="Small" FontFamily="FAS"
+                                                                 Glyph="{x:Static fontawesome:FAIcons.TrashAlt}" />
+                                            </SwipeItem.IconImageSource>
+                                        </SwipeItem>
+                                    </SwipeItems>
+                                </SwipeView.RightItems>
+                                <Grid RowDefinitions="40" Padding="5">
+                                    <Frame Padding="10" CornerRadius="5" HasShadow="True" BackgroundColor="DarkGray">
+                                        <StackLayout Orientation="Vertical">
+                                            <Label Margin="15,0,0,0" Text="{Binding .}" FontSize="Medium" TextColor="WhiteSmoke"
+                                                    VerticalOptions="Start" LineBreakMode="TailTruncation"/>
+                                        </StackLayout>
+                                    </Frame>
+                                </Grid>
+                            </SwipeView>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </ScrollView>
+            <StackLayout Grid.Row="1" BackgroundColor="GreenYellow">
+                <Entry Text="{Binding OwnerToAdd, Mode=TwoWay}" TextColor="White" />
+            </StackLayout>
+            <StackLayout Grid.Row="2">
+                <Button Margin="5,5,0,5" Text="Add New Saving" Command="{Binding AddOwnerCommand}" />
+            </StackLayout>
+        </Grid>
+    </ContentPage.Content>
 </ContentPage>

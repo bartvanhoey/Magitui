@@ -21,6 +21,7 @@ public partial class App : Application
             MainPage = new MobileShell();
     
         Routing.RegisterRoute(nameof(AddSavingsPage), typeof(AddSavingsPage));
+        Routing.RegisterRoute(nameof(EditSavingsPage), typeof(EditSavingsPage));
         Routing.RegisterRoute(nameof(SavingsPage), typeof(SavingsPage));
         Routing.RegisterRoute(nameof(SettingsPage), typeof(SettingsPage));
         Routing.RegisterRoute(nameof(HomePage), typeof(HomePage));

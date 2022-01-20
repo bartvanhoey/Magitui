@@ -6,9 +6,9 @@
 
 
 
-    <StackLayout IsVisible="{Binding IsVisibleCredentials}" VerticalOptions="Center" Margin="20">
+    <StackLayout IsVisible="{Binding ShowCredentialsInput}" VerticalOptions="Center" Margin="20">
 
-        <Label Text="{Binding IsVisibleCredentials}" IsVisible="{Binding IsVisibleCredentials}" BackgroundColor="Yellow" />
+        <Label Text="{Binding ShowCredentialsInput}" IsVisible="{Binding ShowCredentialsInput}" BackgroundColor="Yellow" />
 
         <Label Margin="10" Text="Enter your GitHub credentials" TextColor="Black"/>
         <Entry Margin="10" Text="{Binding PersonalAccessToken}" IsPassword="True" Placeholder="Personal access token" />

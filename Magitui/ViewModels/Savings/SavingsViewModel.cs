@@ -28,11 +28,12 @@
 
         public ICommand EditSavingCommand => _editSavingCommand ??= new AsyncCommand<SavingsDto>(EditSavingAsync);
 
-        private async Task EditSavingAsync(SavingsDto addSavingsEntry)
+        private Task EditSavingAsync(SavingsDto savingsDto)
         {
-            addSavingsEntry.Name = "I Dont KNow";
-            await _savingsFileService.EditItemAsync(addSavingsEntry);
-            await LoadSavingsAsync();
+            return Shell.Current.GoToAsync($"{nameof(EditSavingsPage)}?Id={savingsDto.Id}");
+            //savingsDto.Name = "I Dont KNow";
+            //await _savingsFileService.EditItemAsync(savingsDto);
+            //await LoadSavingsAsync();
         }
 
 

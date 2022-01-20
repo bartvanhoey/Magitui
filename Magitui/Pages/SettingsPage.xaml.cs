@@ -1,4 +1,5 @@
 using Magitui.ViewModels;
+using Magitui.ViewModels.Settings;
 
 namespace Magitui.Pages
 {

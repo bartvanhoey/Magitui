@@ -1,0 +1,21 @@
+using Magitui.ViewModels.Savings;
+
+namespace Magitui;
+
+public partial class EditSavingsPage : ContentPage
+{
+    private EditSavingsViewModel viewmodel;
+
+    public EditSavingsPage()
+	{
+		InitializeComponent();
+
+		BindingContext = viewmodel = new EditSavingsViewModel();
+	}
+
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
+        await viewmodel.InitializeAsync();
+    }
+}
