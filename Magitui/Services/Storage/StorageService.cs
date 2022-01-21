@@ -51,6 +51,32 @@ public class StorageService : StorageServiceBase, IStorageService
     private async Task<string> GetPersonalAccessTokenAsync()
         => await GetAsync(PersonalAccessToken);
 
-    
+    public async Task AddOwnerAsync(string owner)
+    {
+        if (string.IsNullOrWhiteSpace(owner)) return;
+        owner = owner.Replace(";", "");
+        var listOwners = await GetOwnersAsync();
+        listOwners.Add(owner);
+        var owners = string.Join(";", listOwners);
+        await SetAsync(Owners, owners);
+    }
+
+    public async Task<List<string>> GetOwnersAsync()
+    {
+
+        var commaSeparatedOwners = await GetAsync(Owners);
+
+
+        var listOwners = new List<string>();
+        if (!string.IsNullOrWhiteSpace(commaSeparatedOwners))
+        {
+            var separated = commaSeparatedOwners.Split(';').ToList();
+            if (separated.Any())
+            {
+                listOwners.AddRange(separated);
+            }
+        }
+        return listOwners;
+    }
 }
 

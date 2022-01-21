@@ -13,6 +13,7 @@ namespace Magitui.Configuration
         public string RepoName { get; set; }
         public string BranchName { get; set; }
         public string SavingsDataFileName { get; set; }
+        public string OwnersDataFileName { get; set; }
         public string AppName { get; set; }
 
     }

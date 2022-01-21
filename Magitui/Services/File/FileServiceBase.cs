@@ -1,4 +1,5 @@
 ﻿using Magitui.Extensions;
+using Magitui.Services.File;
 using Magitui.Services.RepoContent;
 using Octokit;
 using System.Diagnostics;
@@ -15,7 +16,7 @@ namespace Magitui.Services.File
         protected string _gitHubUserName;
         protected string _personalAccessToken;
         protected string _appName;
-        protected string _savingsDataFile;
+        protected string _nameFileGitHubRepo;
         private IGitHubInfoService _gitHubInfoService;
         protected GitHubInfo _gh;
 
@@ -47,11 +48,11 @@ namespace Magitui.Services.File
                 if (file == null && operation == FileOperation.Add)
                 {
                     var createFileRequest = new CreateFileRequest(commitMessage, $"[{json}]", _gh.BranchName);
-                    await _gh.Client.CreateFile(_gh.UserName, _gh.RepositoryName, _savingsDataFile, createFileRequest);
+                    await _gh.Client.CreateFile(_gh.UserName, _gh.RepositoryName, _nameFileGitHubRepo, createFileRequest);
                 }
                 else
                 {
-                    var _ = await _gh.Client.GetAllContentsByRef(_gh.UserName, _gh.RepositoryName, _savingsDataFile, _gh.BranchName);
+                    var _ = await _gh.Client.GetAllContentsByRef(_gh.UserName, _gh.RepositoryName, _nameFileGitHubRepo, _gh.BranchName);
                     var content = _.FirstOrDefault()?.Content;
                     if (content == null) return;
                     var listOfType = content.ConvertToType<List<T>>();
@@ -78,7 +79,7 @@ namespace Magitui.Services.File
                     }
 
                     var updateFileRequest = new UpdateFileRequest(commitMessage, json, file.Sha, _gh.BranchName);
-                    await _gh.Client.UpdateFile(_gh.UserName, _gh.RepositoryName, _savingsDataFile, updateFileRequest);
+                    await _gh.Client.UpdateFile(_gh.UserName, _gh.RepositoryName, _nameFileGitHubRepo, updateFileRequest);
                 }
             }
             catch (Exception exception)
@@ -87,6 +88,49 @@ namespace Magitui.Services.File
                 throw;
             }
         }
+
+        protected async Task<string> GetFileContentAsync()
+        {
+            var file = await GetFileAsync(_nameFileGitHubRepo);
+            if (file == null) return string.Empty;
+            var _ = await _gh.Client.GetAllContentsByRef(_gh.UserName, _gh.RepositoryName, _nameFileGitHubRepo, _gh.BranchName);
+            var content = _.FirstOrDefault()?.Content;
+            return content;
+        }
+
+        public async Task<List<T>> ReadItemsAsync<T>() where T : IHaveGuidId
+        {
+            try
+            {
+                var content = await GetFileContentAsync();
+                if (string.IsNullOrWhiteSpace(content)) return new List<T>();
+                var items = content.ConvertToType<List<T>>();
+                if (items == null) return new List<T>();
+                return items;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
+
+        public async Task<T> ReadItemByIdAsync<T>(Guid Id) where T : IHaveGuidId
+        {
+            var items = await ReadItemsAsync<T>();
+            var item = items.FirstOrDefault(x => x.Id == Id);
+            if (item == null) return default;
+            return item;
+        }
+
+        public async Task AddItemAsync<T>(T addItem) where T : IHaveGuidId
+            => await UpdateFileAsync(addItem, _nameFileGitHubRepo, FileOperation.Add);
+
+        public async Task EditItemAsync<T>(T editItem) where T : IHaveGuidId
+            => await UpdateFileAsync(editItem, _nameFileGitHubRepo, FileOperation.Edit);
+
+        public async Task DeleteItemAsync<T>(T deleteItem) where T : IHaveGuidId
+            => await UpdateFileAsync(deleteItem, _nameFileGitHubRepo, FileOperation.Delete);
 
     }
 

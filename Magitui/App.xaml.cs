@@ -1,5 +1,6 @@
 ﻿using Magitui.Configuration;
-using Magitui.Pages;
+using Magitui.Pages.Savings;
+using Magitui.Pages.Settings;
 using System.Reflection;
 using System.Text.Json;
 

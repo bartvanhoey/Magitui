@@ -1,6 +1,6 @@
 using Magitui.ViewModels.Savings;
 
-namespace Magitui
+namespace Magitui.Pages.Savings
 {
     public partial class AddSavingsPage : ContentPage
     {
@@ -9,11 +9,14 @@ namespace Magitui
         public AddSavingsPage()
         {
             InitializeComponent();
-            BindingContext = viewmodel= new AddSavingsViewModel();
+            BindingContext = viewmodel = new AddSavingsViewModel();
+
         }
 
-
-
-
+        protected override async void OnAppearing()
+        {
+            base.OnAppearing();
+            await viewmodel.InitializeAsync();
+        }
     }
 }

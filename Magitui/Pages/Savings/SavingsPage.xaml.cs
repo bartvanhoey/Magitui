@@ -1,6 +1,6 @@
 using Magitui.ViewModels.Savings;
 
-namespace Magitui.Pages
+namespace Magitui.Pages.Savings
 {
 
     public partial class SavingsPage : ContentPage

@@ -9,7 +9,7 @@ namespace Magitui.Models
         public string BelongsTo { get; set; }
         public string Name { get; set; }
         public float Amount { get; set; }
-        public string Currency { get; set; }
+        public string Currency { get; set; } 
         public string Institution { get; set; }
         public string ReferenceNumber { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.Now;

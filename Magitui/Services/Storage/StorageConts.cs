@@ -6,6 +6,7 @@ public static class StorageConsts
     public const string GitHubUserName= "gitHubUserName";
     public const string GitHubRepositoryName= "gitHubRepositoryName";
     public const string GitHubBranchName = "gitHubBranchName";
+    public const string Owners = "owners";
 
 }
 

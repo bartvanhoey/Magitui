@@ -4,6 +4,8 @@
              x:Class="Magitui.MobileShell"
              Title="MobileShell"
              xmlns:fontawesome="clr-namespace:Magitui.Resources.Fonts"
+             xmlns:savings="clr-namespace:Magitui.Pages.Savings"
+             xmlns:settings="clr-namespace:Magitui.Pages.Settings"
              xmlns:page="clr-namespace:Magitui.Pages">
 
     <TabBar>
@@ -17,7 +19,7 @@
             <Tab.Icon>
                 <FontImageSource FontFamily="FAS" Glyph="{x:Static fontawesome:FAIcons.DollarSign}"/>
             </Tab.Icon>
-            <ShellContent ContentTemplate="{DataTemplate page:SavingsPage}"/>
+            <ShellContent ContentTemplate="{DataTemplate savings:SavingsPage}"/>
         </Tab>
         <Tab Title="Favorites" Icon="tab_favorites.png">
             <ShellContent ContentTemplate="{DataTemplate page:FavoritesPage}"/>
@@ -26,7 +28,7 @@
             <ShellContent ContentTemplate="{DataTemplate page:MapPage}"/>
         </Tab>
         <Tab Title="Settings" Icon="tab_settings.png">
-            <ShellContent ContentTemplate="{DataTemplate page:SettingsPage}"/>
+            <ShellContent ContentTemplate="{DataTemplate settings:SettingsPage}"/>
         </Tab>
     </TabBar>
 

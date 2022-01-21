@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Magitui.Pages.SettingsPage"
+             x:Class="Magitui.Pages.Settings.SettingsPage"
               xmlns:settings="clr-namespace:Magitui.ViewModels.Settings"
               xmlns:fontawesome="clr-namespace:Magitui.Resources.Fonts"
              Title="SettingsPage">
     <ContentPage.Content>
-        <Grid RowDefinitions="*,auto,auto">
-            <ScrollView Grid.Row="0" BackgroundColor="Transparent" >
+        <Grid RowDefinitions="50,auto,auto,*">
+            <Label Margin="5" VerticalTextAlignment="Center" FontSize="Large"  Grid.Row="0" Text="Owners"></Label>
+            <ScrollView Grid.Row="1" BackgroundColor="Transparent" >
                 <CollectionView
                     SelectedItems="{Binding SelectedOwner}"
                     ItemsSource="{Binding Owners}"
@@ -21,7 +22,7 @@
                                             BackgroundColor="Red"
                                             IsDestructive="True"
                                             Command="{Binding Source={RelativeSource AncestorType={x:Type settings:SettingsViewModel}}, 
-                                                    Path=ShowDeleteSavingPopupCommand}"
+                                                    Path=ShowDeleteOwnerPopupCommand}"
                                             CommandParameter="{Binding .}">
                                             <SwipeItem.IconImageSource>
                                                 <FontImageSource Size="Small" FontFamily="FAS"
@@ -30,11 +31,11 @@
                                         </SwipeItem>
                                     </SwipeItems>
                                 </SwipeView.RightItems>
-                                <Grid RowDefinitions="40" Padding="5">
-                                    <Frame Padding="10" CornerRadius="5" HasShadow="True" BackgroundColor="DarkGray">
+                                <Grid RowDefinitions="50" Padding="5">
+                                    <Frame Padding="5" CornerRadius="5" HasShadow="True" BackgroundColor="DarkGray">
                                         <StackLayout Orientation="Vertical">
-                                            <Label Margin="15,0,0,0" Text="{Binding .}" FontSize="Medium" TextColor="WhiteSmoke"
-                                                    VerticalOptions="Start" LineBreakMode="TailTruncation"/>
+                                            <Label Margin="5,0,0,0" Text="{Binding Name}" FontSize="Medium" TextColor="WhiteSmoke"
+                                                    VerticalOptions="Center" LineBreakMode="TailTruncation"/>
                                         </StackLayout>
                                     </Frame>
                                 </Grid>
@@ -43,11 +44,12 @@
                     </CollectionView.ItemTemplate>
                 </CollectionView>
             </ScrollView>
-            <StackLayout Grid.Row="1" BackgroundColor="GreenYellow">
-                <Entry Text="{Binding OwnerToAdd, Mode=TwoWay}" TextColor="White" />
-            </StackLayout>
-            <StackLayout Grid.Row="2">
-                <Button Margin="5,5,0,5" Text="Add New Saving" Command="{Binding AddOwnerCommand}" />
+            <Grid  Grid.Row="2" ColumnDefinitions="*,auto" RowDefinitions="50" BackgroundColor="Transparent">
+                <Entry Grid.Column="0"  Margin="5" Text="{Binding OwnerName, Mode=TwoWay}" Placeholder="Enter owner..." PlaceholderColor="WhiteSmoke" TextColor="White" />
+                <Button Grid.Column="1" Margin="5" Text="Add Owner" Command="{Binding AddOwnerCommand}" />
+            </Grid>
+            <StackLayout Grid.Row="3" BackgroundColor="Azure">
+
             </StackLayout>
         </Grid>
     </ContentPage.Content>

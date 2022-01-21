@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Magitui.AddSavingsPage"
+             x:Class="Magitui.Pages.Savings.AddSavingsPage"
              Title="Add Saving">
     <ContentPage.Content>
         <Grid Grid.RowDefinitions="*,auto">
@@ -14,6 +14,13 @@
 
                 <Label FontAttributes="Bold" Text="Belongs to" />
                 <Entry Text="{Binding SavingsDto.BelongsTo, Mode=TwoWay}" TextColor="White" />
+
+                <Picker Title="Select an owner..." 
+                        TitleColor="{StaticResource Primary}"
+                        ItemsSource="{Binding OwnersDtos, Mode=TwoWay}"
+                        TextColor="Black"
+                        SelectedItem="{Binding SelectedOwnersDto, Mode=TwoWay}"
+                        ItemDisplayBinding="{Binding Name}" />
 
                 <Label FontAttributes="Bold" Text="Institution" />
                 <Entry Text="{Binding SavingsDto.Institution, Mode=TwoWay}" TextColor="White"  />

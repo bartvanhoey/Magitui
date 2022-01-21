@@ -1,12 +1,6 @@
-﻿using Magitui.Services.Calculator;
-using Magitui.Services.File;
+﻿using Magitui.Services.File.Owners;
 using Magitui.Services.RepoContent;
 using Magitui.Services.Storage;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Magitui.Services.Infrastructure;
 
@@ -19,6 +13,7 @@ public static class AddServices
         builder.Services.AddSingleton<ICalculatorService, CalculatorService>();
         builder.Services.AddSingleton<IStorageService, StorageService>();
         builder.Services.AddSingleton<IGitHubInfoService, GitHubInfoService>();
+        builder.Services.AddSingleton<IOwnersFileService, OwnersFileService>();
 
 
         //        builder.Services.AddBlazorWebView();

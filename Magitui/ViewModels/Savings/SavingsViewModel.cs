@@ -1,4 +1,6 @@
-﻿namespace Magitui.ViewModels.Savings
+﻿using Magitui.Pages.Savings;
+
+namespace Magitui.ViewModels.Savings
 {
     public class SavingsViewModel : ViewModelBase
     {
@@ -37,9 +39,9 @@
         }
 
 
-        private async Task ShowDeleteSavingPopupAsync(SavingsDto addSavingsEntry)
+        private async Task ShowDeleteSavingPopupAsync(SavingsDto savingsDto)
         {
-            await _savingsFileService.DeleteItemAsync(addSavingsEntry);
+            await _savingsFileService.DeleteItemAsync(savingsDto);
             await LoadSavingsAsync();
         }
 
